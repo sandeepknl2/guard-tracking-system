@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guard Tracking</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: #f2f2f2;
+    text-align: center;
+}
+
+.container {
+    background: white;
+    width: 320px;
+    margin: 60px auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px gray;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+input {
+    width: 90%;
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    width: 95%;
+    padding: 10px;
+    margin: 10px;
+    border: none;
+    background: #007bff;
+    color: white;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button:hover {
+    background: #0056b3;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Guard Tracking</h2>
+
+    <input id="name" placeholder="Enter Guard Name">
+    <input id="location" placeholder="Enter Location">
+
+    <button onclick="checkIn()">Check In</button>
+    <button onclick="checkOut()">Check Out</button>
+</div>
+
+<script>
+function checkIn() {
+    let name = document.getElementById("name").value;
+    let location = document.getElementById("location").value;
+
+    if (!name || !location) {
+        alert("Please enter all fields");
+        return;
+    }
+
+    fetch(`http://localhost:8080/api/checkin?name=${name}&location=${location}`, {
+        method: "POST"
+    })
+    .then(res => res.text())
+    .then(data => alert(data))
+    .catch(err => alert("Error: " + err));
+}
+
+function checkOut() {
+    let name = document.getElementById("name").value;
+
+    if (!name) {
+        alert("Enter name");
+        return;
+    }
+
+    fetch(`http://localhost:8080/api/checkout?name=${name}`, {
+        method: "POST"
+    })
+    .then(res => res.text())
+    .then(data => alert(data))
+    .catch(err => alert("Error: " + err));
+}
+</script>
+
+</body>
+</html>
